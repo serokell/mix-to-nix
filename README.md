@@ -31,5 +31,5 @@ You can also use it to manually generate a `default.nix`:
 ```sh
 mix deps.get
 mix escript.build
-./mix2nix /path/to/mix.lock /path/to/default.nix
+./mix2nix /path/to/mix.lock > /path/to/default.nix
 ```
