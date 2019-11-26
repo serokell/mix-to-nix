@@ -61,6 +61,26 @@ let
     inherit LANG LOCALE_ARCHIVE;
   } // drv);
 
+  # Don't build or install anything, just perform a given check
+  # Each check creates a separate derivation, like nixos tests
+  justCheck = package: name: check: package.overrideAttrs (o: {
+    name = "${package.name}-${name}";
+    
+    dontBuild = true;
+    dontInstall = true;
+    doCheck = true;
+
+    MIX_ENV = "test";
+    
+    checkPhase = check;
+  });
+
+  CIChecks = package: builtins.mapAttrs (justCheck package) {
+    format = "mix format --check-formatted";
+    credo = "mix credo";
+    dialyzer = "mkdir -p priv/plts; mix dialyzer --plt --halt-exit-status";
+  };
+
   jason = buildMix rec {
     name = "jason";
     version = "1.1.2";
@@ -253,7 +273,7 @@ let
 in
 
 {
-  inherit mixSourceFilter;
+  inherit mixSourceFilter CIChecks;
 
   mixToNix = { overlay ? _: _: {}, src }:
     let
