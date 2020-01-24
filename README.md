@@ -75,8 +75,8 @@ corresponds to a `deps/` path. Two types of deps are supported, `:git` and
 yet, see [NixOS/nix#2409](https://github.com/NixOS/nix/pull/2409).
 
 `:hexpm` fetches package from [Hex.pm](https://hex.pm). It comes with
-a SHA-256 hash of catenation of Mix archive version, package metadata,
-and `.tar.gz` source code archive. Nix can only carry that catenation
+a SHA-256 hash of concatenation of Mix archive version, package metadata,
+and `.tar.gz` source code archive. Nix can only carry that concatenation
 into the sandbox, so [`gzseek`](./gzseek.c) finds where the source
 code archive starts and extracts that part, ignoring archive version
 and metadata.
