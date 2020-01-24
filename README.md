@@ -74,11 +74,12 @@ corresponds to a `deps/` path. Two types of deps are supported, `:git` and
 `:git` fetches given rev from `HEAD`. It doesn't support other branches just
 yet, see [NixOS/nix#2409](https://github.com/NixOS/nix/pull/2409).
 
-`:hexpm` fetches package from [Hex.pm](https://hex.pm). It comes with a SHA-256
-hash of catenation of Mix archive version, package metadata, and `.tar.gz`
-source code archive. Nix can only carry that catenation into the sandbox, so
-[`binwalk`](https://github.com/ReFirmLabs/binwalk) finds where the source code
-archive starts and extracts that part, ignoring archive version and metadata.
+`:hexpm` fetches package from [Hex.pm](https://hex.pm). It comes with
+a SHA-256 hash of catenation of Mix archive version, package metadata,
+and `.tar.gz` source code archive. Nix can only carry that catenation
+into the sandbox, so [`gzseek`](./gzseek.c) finds where the source
+code archive starts and extracts that part, ignoring archive version
+and metadata.
 
 Mix, Rebar3 and ErlangMk deps are supported.
 

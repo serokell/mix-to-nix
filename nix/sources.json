@@ -1,0 +1,39 @@
+{
+    "jason": {
+        "branch": "master",
+        "description": "A blazing fast JSON parser and generator in pure Elixir.",
+        "homepage": "",
+        "owner": "michalmuskala",
+        "repo": "jason",
+        "rev": "70b046aee882ca789bebf3a7d173e6259f3fa8aa",
+        "sha256": "1s4vnim8wdnd6qby6z2x4lbja7pylag3j472774r4jbq4x0w1zm5",
+        "type": "tarball",
+        "url": "https://github.com/michalmuskala/jason/archive/70b046aee882ca789bebf3a7d173e6259f3fa8aa.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz",
+        "version": "1.1.2"
+    },
+    "niv": {
+        "branch": "master",
+        "description": "Easy dependency management for Nix projects",
+        "homepage": "https://github.com/nmattia/niv",
+        "owner": "nmattia",
+        "repo": "niv",
+        "rev": "49157afd2298749b8a5062fd21079542a6b2de35",
+        "sha256": "0q7ymfrcgagcsw6kr93kprag7k358qj8znyzyri53ci1mrsak5y1",
+        "type": "tarball",
+        "url": "https://github.com/nmattia/niv/archive/49157afd2298749b8a5062fd21079542a6b2de35.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "yorickvp/bump-2020-01-23",
+        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
+        "homepage": "https://github.com/NixOS/nixpkgs",
+        "owner": "serokell",
+        "repo": "nixpkgs",
+        "rev": "d51acb48980441100743541877e0270337116e0e",
+        "sha256": "0hlq5jf4vf3idn6j1l6sxdh3lhkj149zf4qc2y0fwy2jjczfndaq",
+        "type": "tarball",
+        "url": "https://github.com/serokell/nixpkgs/archive/d51acb48980441100743541877e0270337116e0e.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}

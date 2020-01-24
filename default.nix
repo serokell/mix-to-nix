@@ -1,9 +1,9 @@
 { stdenv, fetchurl, fetchzip, runCommand, beamPackages, glibcLocales
-, python3Packages, writeShellScriptBin, writeText }:
-
+, python3Packages, writeCBin, writeShellScriptBin, writeText }:
 with stdenv.lib;
 
 let
+  sources = import ./nix/sources.nix;
   mixSourceFilter = name: type:
     let
       baseName = baseNameOf name;
@@ -63,12 +63,8 @@ let
 
   jason = buildMix rec {
     name = "jason";
-    version = "1.1.2";
-
-    src = fetchzip {
-      url = "https://github.com/michalmuskala/jason/archive/v${version}.tar.gz";
-      sha256 = "0fh87vrfqsyiaazsangsg992i1azad8cmzyzvg7fdm9z6b3v7lm0";
-    };
+    inherit (sources.jason) version;
+    src = sources.jason;
   };
 
   inherit (beamPackages) elixir erlang hex;
@@ -144,9 +140,7 @@ let
   fakeHexOverride = final: name: prev:
     fakeHexOverrideImpl prev (getAttr name final);
 
-  binwalk = python3Packages.binwalk.override {
-    pyqtgraph = null;
-  };
+  gzseek = writeCBin "gzseek" (builtins.readFile ./gzseek.c);
 
   fetchHex = { pname, version, sha256 }: stdenv.mkDerivation {
     inherit pname version;
@@ -163,18 +157,14 @@ let
       '';
     };
 
-    HOME = ".";
+    nativeBuildInputs = [ gzseek ];
 
-    nativeBuildInputs = [ binwalk ];
-
-    unpackPhase = ''
-      binwalk --include compress --extract $src
-    '';
+    unpackPhase = "true";
 
     installPhase = ''
       mkdir $out
+      gzseek $src | tar -xzC $out
       echo ${pname},${version},${sha256},hexpm > $out/.hex
-      tar xf *.extracted/* -C $out
     '';
   };
 
