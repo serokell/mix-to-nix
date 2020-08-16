@@ -174,6 +174,7 @@ let
     installPhase = ''
       mkdir $out
       echo ${pname},${version},${sha256},hexpm > $out/.hex
+      rm *.extracted/*.gz
       tar xf *.extracted/* -C $out
     '';
   };
