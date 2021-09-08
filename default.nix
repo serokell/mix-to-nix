@@ -1,7 +1,7 @@
 { stdenv, fetchurl, fetchzip, runCommand, beamPackages, glibcLocales
-, python3Packages, writeShellScriptBin, writeText }:
+, python3Packages, writeShellScriptBin, writeText, lib }:
 
-with stdenv.lib;
+with lib;
 
 let
   mixSourceFilter = name: type:
