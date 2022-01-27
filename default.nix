@@ -249,7 +249,7 @@ let
     MIX_EXS = "${src}/mix.exs";
   } ''
     mix run --no-compile --no-deps-check --no-start \
-      --eval 'IO.puts inspect(Map.new(Mix.Project.config))' > $out
+      --eval 'IO.puts inspect(Map.new(Mix.Project.config)); System.halt(0)' > $out
   '';
 in
 
