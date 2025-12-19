@@ -1,5 +1,8 @@
 { stdenv, fetchurl, fetchzip, runCommand, beamPackages, glibcLocales
-, python3Packages, writeShellScriptBin, writeText, lib }:
+, python3Packages, writeShellScriptBin, writeText, lib, fetchFromGitHub
+, zlib, xz, gzip, bzip2, gnutar, p7zip, cabextract, squashfsTools
+, yaffshiv, cramfsprogs, cramfsswap, sasquatch
+}:
 
 with lib;
 
@@ -144,8 +147,41 @@ let
   fakeHexOverride = final: name: prev:
     fakeHexOverrideImpl prev (getAttr name final);
 
-  binwalk = python3Packages.binwalk.override {
-    pyqtgraph = null;
+  # binwalk v3 doesn't work for some packages,
+  # sadly v2 was removed from nixpkgs, so we re-add it here manually
+  # TODO: update when https://github.com/NixOS/nixpkgs/pull/469982 is merged
+  binwalk_2 = python3Packages.buildPythonPackage rec {
+    pname = "binwalk";
+    version = "2.4.3";
+    pyproject = true;
+
+    src = fetchFromGitHub {
+      owner = "OSPG";
+      repo = "binwalk";
+      rev = "refs/tags/v${version}";
+      hash = "sha256-kabibUMh5HyAJCXOyZo3QSNIVz8fER4Xivuv9E3CfEE=";
+    };
+
+    build-system = [ python3Packages.setuptools ];
+
+    propagatedBuildInputs =
+      [
+        zlib
+        gzip
+        bzip2
+        gnutar
+        p7zip
+        cabextract
+        squashfsTools
+        xz
+        python3Packages.pycrypto
+        yaffshiv
+      ]
+      ++ lib.optionals (!stdenv.hostPlatform.isDarwin) [
+        cramfsprogs
+        cramfsswap
+        sasquatch
+      ];
   };
 
   fetchHex = { pname, version, sha256 }: stdenv.mkDerivation {
@@ -165,7 +201,7 @@ let
 
     HOME = ".";
 
-    nativeBuildInputs = [ binwalk ];
+    nativeBuildInputs = [ binwalk_2 ];
 
     unpackPhase = ''
       binwalk --include compress --extract $src
